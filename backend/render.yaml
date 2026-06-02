@@ -1,0 +1,29 @@
+# render.yaml  —  drop this in your repo root
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: gdrive-ai-assistant
+    runtime: python
+    region: oregon          # change to: ohio | frankfurt | singapore | ohio
+    plan: free              # or: starter | standard | pro
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    healthCheckPath: /health
+
+    envVars:
+      # Secrets — set values in the Render dashboard, not here
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GDRIVE_FOLDER_ID
+        sync: false
+
+      # Non-secret config
+      - key: PYTHONUNBUFFERED    # ensures logs stream to Render in real time
+        value: "1"
+      - key: LOG_LEVEL
+        value: "INFO"
