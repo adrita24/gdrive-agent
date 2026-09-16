@@ -9,8 +9,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-import streamlit as st
-BACKEND_URL = st.secrets.get("BACKEND_URL", os.getenv("BACKEND_URL", "http://localhost:8000"))
+raw_backend_url = os.getenv("BACKEND_URL")
+try:
+    raw_backend_url = st.secrets.get("BACKEND_URL") or raw_backend_url
+except Exception:
+    pass
+BACKEND_URL = raw_backend_url.strip() if raw_backend_url and raw_backend_url.strip() else "http://localhost:8000"
 
 SUGGESTED_PROMPTS = [
     "📄 Show me all files",

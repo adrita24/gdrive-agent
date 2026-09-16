@@ -40,7 +40,7 @@ _agent = None
 def create_agent():
     from drive_tool import search_drive_files, list_all_files
     llm = ChatGroq(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        model="qwen/qwen3.8-27b",
         api_key=os.getenv("GROQ_API_KEY"),
         temperature=0,
     )
